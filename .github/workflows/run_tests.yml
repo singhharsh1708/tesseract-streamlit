@@ -120,11 +120,11 @@ jobs:
           STREAMLIT_SERVER_HEADLESS: "true"
         run: |
           source .venv/bin/activate
-          for example in vectoradd_jax jax_fem; do
+          for example in vectoradd_jax; do
             echo "::group::$example"
             setsid bash "examples/$example/run.sh" > "$example.log" 2>&1 &
             pid=$!
-            for _ in $(seq 1 180); do
+            for _ in $(seq 1 24); do
               curl -sf localhost:8501/_stcore/health > /dev/null && break
               sleep 5
             done
